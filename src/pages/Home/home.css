@@ -1,0 +1,33 @@
+/* header {
+  height: 100vh;
+  padding-top: 65px;
+  background-color: #000;
+} */
+.header {
+  width: 50%;
+}
+
+.carousel-item img {
+  height: 100vh;
+  filter: brightness(50%);
+}
+.carousel-caption {
+  left: 0px;
+  right: 0;
+  top: 20%;
+  bottom: 0;
+}
+
+.header-title {
+  display: block;
+  color: white;
+}
+
+.containers {
+  padding: 0 1%;
+}
+
+.containers .button-watch {
+  background-color: #f80008;
+  color: white;
+}
