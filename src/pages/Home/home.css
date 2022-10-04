@@ -6,15 +6,18 @@
 .header {
   width: 50%;
 }
-
-.carousel-item img {
+.images {
   height: 100vh;
+}
+.carousel-item img {
   filter: brightness(50%);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 .carousel-caption {
   left: 0px;
   right: 0;
-  top: 20%;
+  top: 35%;
   bottom: 0;
 }
 
@@ -27,7 +30,12 @@
   padding: 0 1%;
 }
 
-.containers .button-watch {
-  background-color: #f80008;
+.container .button-watch {
+  background-color: #f33f3f;
   color: white;
+}
+
+.title-contents p {
+  font-weight: 400;
+  color: #f33f3f;
 }

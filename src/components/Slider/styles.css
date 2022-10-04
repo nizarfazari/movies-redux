@@ -1,0 +1,17 @@
+.swiper-slide {
+  height: 500px;
+}
+
+/* .swiper-slide img {
+  border-radius: 10px;
+} */
+
+/* .genre-slider {
+  width: 150px !important;
+} */
+
+.swiper-slide .button-genre {
+  border: 1px solid #f33f3f;
+  color: #f33f3f;
+  width: 100%;
+}
