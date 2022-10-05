@@ -1,13 +1,15 @@
 import React from "react";
 import { AiOutlineSearch } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 import "./navbar.css";
 
 const Navbars = () => {
+  const navigate = useNavigate();
   return (
     <nav>
       <div className="wrapper flex justify-between items-center container mx-auto">
         <div className="logo">
-          <svg width="198" height="32" viewBox="0 0 99 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg width="198" height="32" viewBox="0 0 99 16" fill="none" className="cursor-pointer" xmlns="http://www.w3.org/2000/svg" onClick={() => navigate("/")}>
             <path
               fill-rule="evenodd"
               clip-rule="evenodd"

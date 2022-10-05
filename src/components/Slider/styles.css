@@ -1,17 +1,25 @@
-.swiper-slide {
-  height: 500px;
-}
-
-/* .swiper-slide img {
-  border-radius: 10px;
-} */
-
-/* .genre-slider {
-  width: 150px !important;
-} */
-
 .swiper-slide .button-genre {
   border: 1px solid #f33f3f;
   color: #f33f3f;
   width: 100%;
+}
+
+.movie-card .movie-description {
+  bottom: -100%;
+  left: 1.75rem;
+  right: 1.75rem;
+  transition: 0.5s ease;
+}
+
+.movie-card:hover .movie-description {
+  bottom: 1.75rem;
+  transition: 0.5s ease;
+}
+
+.movie-card img:hover {
+  filter: brightness(50%);
+}
+
+.review-card {
+  background-color: rgba(0, 0, 0, 0.1);
 }
