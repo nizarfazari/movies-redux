@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+
 import "./navbar.css";
 
 const Navbars = () => {
   const navigate = useNavigate();
+
+  const searchButton = async (e) => {
+    e.preventDefault();
+    let data = e.target[0].value;
+
+    navigate(`/search/${data}`);
+  };
   return (
     <nav>
       <div className="wrapper flex justify-between items-center container mx-auto">
@@ -18,10 +26,12 @@ const Navbars = () => {
             />
           </svg>
         </div>
-        <div className="nav-search relative w-80 flex ">
-          <input className=" py-2 pl-5  rounded-3xl " type="text" placeholder="What do you want to watch?" />
-          <AiOutlineSearch className="icon absolute" />
-        </div>
+        <form className="" onSubmit={(e) => searchButton(e)}>
+          <div className="nav-search relative w-80 flex ">
+            <input className=" py-2 pl-5  rounded-3xl " type="text" placeholder="What do you want to watch?" name="search" />
+            <AiOutlineSearch className="icon absolute" />
+          </div>
+        </form>
         <div className="nav-buttons flex gap-x-2">
           <button className="button-login rounded-3xl px-6 py-2">Login</button>
           <button className="button-register rounded-3xl px-6 py-2 font-medium">Register</button>

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import { AiOutlinePlayCircle, AiFillStar } from "react-icons/ai";
 import { useParams } from "react-router-dom";
-
+import "./styles.css";
 import { Slider } from "../../components";
 import { API_TMDB_URL, BASE_URL, IMG_URL } from "../../utils/API/api";
 import Modal from "react-bootstrap/Modal";

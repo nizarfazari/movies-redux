@@ -2,6 +2,7 @@ import React from "react";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
+import { BsFileEarmarkText } from "react-icons/bs";
 import { AiFillStar } from "react-icons/ai";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -63,7 +64,6 @@ const Slider = (props) => {
     );
   }
   if (reviews) {
-    console.log(reviews);
     return (
       <>
         <Swiper
@@ -74,7 +74,7 @@ const Slider = (props) => {
           }}
           className="mySwiper"
         >
-          {reviews &&
+          {reviews.length > 0 ? (
             reviews.map((review) => {
               return (
                 <SwiperSlide className="cursor-pointer" key={review.id}>
@@ -87,14 +87,26 @@ const Slider = (props) => {
                       <span className="ml-4">{review.author}</span>
                     </div>
                     <p className="font-bold mb-3 flex items-center ">
-                      <AiFillStar className="mr-2" style={{ color: "#fcd34d" }} /> {Math.min(review.author_details.rating).toFixed(1)} / 10
+                      {review.author_details.rating === null ? (
+                        "empty"
+                      ) : (
+                        <div className="flex items-center">
+                          <AiFillStar className="mr-2" style={{ color: "#fcd34d" }} /> {Math.min(review.author_details.rating).toFixed(1)} / 10
+                        </div>
+                      )}
                     </p>
                     <h1 className="font-light text-sm mb-3 leading-relaxed">{review.content}</h1>
                     <p className="text-sm m-0 text-gray-500"></p>
                   </div>
                 </SwiperSlide>
               );
-            })}
+            })
+          ) : (
+            <div className="notification flex flex-col items-center">
+              <BsFileEarmarkText className="text-7xl text-gray-400" />
+              <h1 className="text-base pt-4 tracking-wide text-gray-400">There isn't any data</h1>
+            </div>
+          )}
         </Swiper>
       </>
     );
@@ -109,7 +121,6 @@ const Slider = (props) => {
           }}
           className="mySwiper"
         >
-          {console.log(movies)}
           {movies &&
             movies.map((movie) => {
               return (
@@ -119,7 +130,10 @@ const Slider = (props) => {
 
                     <div className="movie-description absolute">
                       <h4 className="font-bold text-lg text-white mb-3">{movie.original_title}</h4>
-                      <p className="font-normal text-sm text-white mb-3 flex items-center ">
+                      <p
+                        className="
+                       text-sm text-white mb-3 flex items-center "
+                      >
                         <AiFillStar className="mr-2" style={{ color: "#fcd34d" }} /> {Math.min(movie.vote_average).toFixed(1)} / 10
                       </p>
                     </div>
