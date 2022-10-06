@@ -29,7 +29,7 @@ const Home = () => {
         });
 
       await axios
-        .get(`${BASE_URL}/trending/all/week`, {
+        .get(`${BASE_URL}/movie/top_rated`, {
           params: {
             api_key: API_TMDB_URL,
           },

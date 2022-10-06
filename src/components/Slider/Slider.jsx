@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
@@ -12,6 +12,8 @@ import "./styles.css";
 import { IMG_URL, IMG_URL_500 } from "../../utils/API/api";
 import { useNavigate } from "react-router-dom";
 const Slider = (props) => {
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
   const { movies, genres, reviews, casts } = props;
 
@@ -29,7 +31,7 @@ const Slider = (props) => {
           {genres &&
             genres.map((genre) => {
               return (
-                <SwiperSlide className="cursor-pointer h-auto mb-10 me-4 genre-slider" key={genre.id} onClick={() => navigate("/")}>
+                <SwiperSlide className="cursor-pointer h-auto mb-10 me-4 genre-slider" key={genre.id} onClick={() => navigate(`/category/${genre.name}`)}>
                   <button className="button-genre rounded-3xl px-6 py-2">{genre.name}</button>
                 </SwiperSlide>
               );
@@ -119,6 +121,7 @@ const Slider = (props) => {
           pagination={{
             clickable: true,
           }}
+          loop={true}
           className="mySwiper"
         >
           {movies &&
