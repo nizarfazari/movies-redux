@@ -1,12 +1,17 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
+
+//import from library
+import axios from "axios";
 import Carousel from "react-bootstrap/Carousel";
 import { AiOutlinePlayCircle, AiFillStar } from "react-icons/ai";
 import { useParams } from "react-router-dom";
-import "./styles.css";
+import Modal from "react-bootstrap/Modal";
+
 import { Slider } from "../../components";
 import { API_TMDB_URL, BASE_URL, IMG_URL } from "../../utils/API/api";
-import Modal from "react-bootstrap/Modal";
+
+// import css
+import "./styles.css";
 const Details = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState([]);
@@ -46,7 +51,7 @@ const Details = () => {
                 <div className="header text-start">
                   <h1 className="font-medium text-7xl text-white mb-8">{movie.original_title}</h1>
                   <p className="text-white mb-8">{movie.overview}</p>
-                  <p className="flex items-center mb-8 font-bold">
+                  <p className="rating flex items-center mb-8 font-bold">
                     <AiFillStar className="mr-2" style={{ color: "#fcd34d" }} /> {Math.min(movie.vote_average).toFixed(1)} / 10
                   </p>
                   <button className="button-watch rounded-3xl px-6 py-2 font-semibold flex items-center" onClick={handleShow}>

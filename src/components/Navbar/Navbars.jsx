@@ -16,8 +16,8 @@ const Navbars = () => {
   return (
     <nav>
       <div className="wrapper flex justify-between items-center container mx-auto">
-        <div className="logo">
-          <svg width="198" height="32" viewBox="0 0 99 16" fill="none" className="cursor-pointer" xmlns="http://www.w3.org/2000/svg" onClick={() => navigate("/")}>
+        <div className="logos">
+          <svg width="198" height="32" viewBox="0 0 99 16" fill="none" className="logo cursor-pointer" xmlns="http://www.w3.org/2000/svg" onClick={() => navigate("/")}>
             <path
               fill-rule="evenodd"
               clip-rule="evenodd"

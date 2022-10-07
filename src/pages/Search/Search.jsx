@@ -9,7 +9,7 @@ import { Loader, Slider } from "../../components";
 const Search = () => {
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loaded, setLoaded] = useState(false);
 
   const { nama, cat } = useParams();
 
@@ -21,6 +21,9 @@ const Search = () => {
     }
   }, [nama, cat]);
 
+  const onImageLoaded = () => {
+    setLoaded(true);
+  };
   const getMovies = async (nama) => {
     const dataMovies = await axios.get(`${BASE_URL}/search/movie?api_key=${API_TMDB_URL}&query=${nama}`);
     setMovies(dataMovies.data.results);
@@ -31,7 +34,6 @@ const Search = () => {
     const dataGenre = await axios.get(`${BASE_URL}/genre/movie/list?api_key=${API_TMDB_URL}&query=${cat}`);
     setGenres(dataGenre.data.genres);
     setMovies(dataMovies.data.results);
-    setTimeout(() => setLoading(false), 500);
   };
 
   return (
@@ -69,13 +71,10 @@ const Search = () => {
         {movies.length > 0 ? (
           <div className=" grid grid-cols-4 gap-5">
             {movies.map((movie) => {
-              console.log(loading);
-              return loading ? (
-                <Loader />
-              ) : (
+              return (
                 <div className="movie-card relative overflow-hidden">
-                  <img className="rounded-xl" src={`${IMG_URL}/${movie.poster_path}`} alt="" />
-
+                  <img className="rounded-xl" src={`${IMG_URL}/${movie.poster_path}`} onLoad={onImageLoaded} alt="" />
+                  {!loaded && <Loader />}
                   <div className="movie-description absolute">
                     <h4 className="font-bold text-lg text-white mb-3">{movie.original_title}</h4>
                     <p

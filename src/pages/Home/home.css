@@ -4,7 +4,7 @@
   background-color: #000;
 } */
 .header {
-  width: 50%;
+  width: 55%;
 }
 .images {
   height: 100vh;
@@ -17,7 +17,7 @@
 .carousel-caption {
   left: 0px;
   right: 0;
-  top: 35%;
+  top: 30%;
   bottom: 0;
 }
 
@@ -42,4 +42,57 @@
 
 .trailer {
   top: 20px;
+}
+@media screen and (max-width: 1440px) {
+  .images img {
+    height: 100vh;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  nav .nav-search {
+    width: 300px;
+  }
+
+  .popular {
+    margin-bottom: 10px;
+  }
+  .images {
+    height: 50vh;
+  }
+  .header {
+    width: 70%;
+  }
+
+  .images img {
+    height: auto;
+  }
+
+  .header h1 {
+    font-size: 3rem;
+  }
+
+  .header p {
+    font-size: 1rem;
+  }
+
+  .header .rating {
+    display: none;
+  }
+
+  .header button {
+    padding: 2px 20px;
+    font-weight: 400;
+    font-size: 1rem;
+  }
+  .carousel-caption {
+    left: 0px;
+    right: 0;
+    top: 20%;
+    bottom: 0;
+  }
+
+  .section-movie {
+    margin-top: 0;
+  }
 }

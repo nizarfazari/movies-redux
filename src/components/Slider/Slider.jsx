@@ -2,26 +2,41 @@ import React, { useState } from "react";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
-import { BsFileEarmarkText } from "react-icons/bs";
-import { AiFillStar } from "react-icons/ai";
+import "./styles.css";
+
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 // import required modules
-import "./styles.css";
 
+import { BsFileEarmarkText } from "react-icons/bs";
+import { AiFillStar } from "react-icons/ai";
+import Loader from "../Loader/Loader";
 import { IMG_URL, IMG_URL_500 } from "../../utils/API/api";
 import { useNavigate } from "react-router-dom";
+
 const Slider = (props) => {
-  const [loading, setLoading] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   const navigate = useNavigate();
   const { movies, genres, reviews, casts } = props;
-
+  const onImageLoaded = () => {
+    setLoaded(true);
+  };
   if (genres) {
     return (
       <>
         <Swiper
-          slidesPerView={7}
+          breakpoints={{
+            375: {
+              slidesPerView: 2,
+            },
+            768: {
+              slidesPerView: 4,
+            },
+            1024: {
+              slidesPerView: 6,
+            },
+          }}
           spaceBetween={50}
           pagination={{
             clickable: true,
@@ -44,18 +59,30 @@ const Slider = (props) => {
     return (
       <>
         <Swiper
-          slidesPerView={4}
+          breakpoints={{
+            375: {
+              slidesPerView: 2,
+            },
+            768: {
+              slidesPerView: 3,
+            },
+            1024: {
+              slidesPerView: 4,
+            },
+          }}
           spaceBetween={50}
           pagination={{
             clickable: true,
           }}
+          loop={true}
           className="mySwiper"
         >
           {casts &&
             casts.map((cast) => {
               return (
                 <SwiperSlide className="cursor-pointer" key={cast.id}>
-                  <img className="rounded-xl mb-3" src={`${IMG_URL_500}/${cast.profile_path}`} alt="" />
+                  <img className="rounded-xl mb-3" src={`${IMG_URL_500}/${cast.profile_path}`} onLoad={onImageLoaded} alt="" />
+                  {!loaded && <Loader />}
                   <h1 className="font-bold text-lg mb-1">{cast.name}</h1>
                   <p className="text-gray-500">{cast.character}</p>
                 </SwiperSlide>
@@ -69,10 +96,17 @@ const Slider = (props) => {
     return (
       <>
         <Swiper
-          slidesPerView={2}
           spaceBetween={50}
           pagination={{
             clickable: true,
+          }}
+          breakpoints={{
+            375: {
+              slidesPerView: 1,
+            },
+            1024: {
+              slidesPerView: 2,
+            },
           }}
           className="mySwiper"
         >
@@ -112,14 +146,25 @@ const Slider = (props) => {
         </Swiper>
       </>
     );
-  } else {
+  }
+  if (movies) {
     return (
       <>
         <Swiper
-          slidesPerView={4}
           spaceBetween={50}
           pagination={{
             clickable: true,
+          }}
+          breakpoints={{
+            375: {
+              slidesPerView: 2,
+            },
+            768: {
+              slidesPerView: 3,
+            },
+            1024: {
+              slidesPerView: 4,
+            },
           }}
           loop={true}
           className="mySwiper"
@@ -129,7 +174,8 @@ const Slider = (props) => {
               return (
                 <SwiperSlide className="cursor-pointer" key={movie.id} onClick={() => navigate(`/movie/${movie.id}`)}>
                   <div className="movie-card relative">
-                    <img className="rounded-xl" src={`${IMG_URL}/${movie.poster_path}`} alt="" />
+                    <img className="rounded-xl" src={`${IMG_URL}/${movie.poster_path}`} onLoad={onImageLoaded} alt="" />
+                    {!loaded && <Loader />}
 
                     <div className="movie-description absolute">
                       <h4 className="font-bold text-lg text-white mb-3">{movie.original_title}</h4>
