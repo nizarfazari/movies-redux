@@ -64,9 +64,11 @@ const Home = () => {
                 <div className="header text-start">
                   <h1 className="font-medium text-7xl text-white mb-8 ">Kakegurui</h1>
                   <p className="text-white mb-8 ">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic ad rem odio, saepe voluptate aut quo nam sapiente explicabo perferendis?</p>
-                  <button className="button-watch rounded-3xl px-6 py-2 flex items-center font-semibold">
-                    <AiOutlinePlayCircle className="mr-2 text-xl " /> WATCH TRAILER
-                  </button>
+                  <a href="https://www.youtube.com/watch?v=cTlHQiRNVl0&t=11s&ab_channel=Netflix">
+                    <button className="button-watch rounded-3xl px-6 py-2 flex items-center font-semibold">
+                      <AiOutlinePlayCircle className="mr-2 text-xl " /> WATCH TRAILER
+                    </button>
+                  </a>
                 </div>
               </div>
             </Carousel.Caption>
@@ -80,9 +82,11 @@ const Home = () => {
                 <div className="header text-start">
                   <h1 className="font-medium text-7xl text-white mb-8  ">Shokugeki no Soma</h1>
                   <p className="text-white mb-8 ">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic ad rem odio, saepe voluptate aut quo nam sapiente explicabo perferendis?</p>
-                  <button className="button-watch rounded-3xl px-6 py-2 font-semibold flex items-center ">
-                    <AiOutlinePlayCircle className="mr-2 text-xl " /> WATCH TRAILER
-                  </button>
+                  <a href="https://www.youtube.com/watch?v=--v6zWSR_Ko&ab_channel=MadmanAnime">
+                    <button className="button-watch rounded-3xl px-6 py-2 font-semibold flex items-center ">
+                      <AiOutlinePlayCircle className="mr-2 text-xl " /> WATCH TRAILER
+                    </button>
+                  </a>
                 </div>
               </div>
             </Carousel.Caption>
@@ -96,9 +100,11 @@ const Home = () => {
                 <div className="header text-start">
                   <h1 className="font-medium text-7xl text-white mb-8 ">Akame ga Kill!</h1>
                   <p className="text-white mb-8 ">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic ad rem odio, saepe voluptate aut quo nam sapiente explicabo perferendis?</p>
-                  <button className="button-watch rounded-3xl px-6 py-2 font-semibold flex items-center">
-                    <AiOutlinePlayCircle className="mr-2 text-xl" /> WATCH TRAILER
-                  </button>
+                  <a href="https://www.youtube.com/watch?v=sasgDq9jidk&ab_channel=AnimexMoviesHD">
+                    <button className="button-watch rounded-3xl px-6 py-2 font-semibold flex items-center">
+                      <AiOutlinePlayCircle className="mr-2 text-xl" /> WATCH TRAILER
+                    </button>
+                  </a>
                 </div>
               </div>
             </Carousel.Caption>
