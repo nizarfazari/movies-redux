@@ -66,7 +66,6 @@ const Search = () => {
         ) : (
           <h1 className="xl:text-4xl sm:text-3xl text-2xl font-semibold leading-tight xl:mb-14 mb-8">Search Result "{nama}"</h1>
         )}
-        {console.log(movies)}
 
         {movies.length > 0 ? (
           <div className=" grid grid-cols-4 gap-5">
