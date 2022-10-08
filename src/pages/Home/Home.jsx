@@ -66,7 +66,7 @@ const Home = () => {
                   <p className="text-white mb-8 ">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic ad rem odio, saepe voluptate aut quo nam sapiente explicabo perferendis?</p>
                   <a href="https://www.youtube.com/watch?v=cTlHQiRNVl0&t=11s&ab_channel=Netflix">
                     <button className="button-watch rounded-3xl px-6 py-2 flex items-center font-semibold">
-                      <AiOutlinePlayCircle className="mr-2 text-xl " /> WATCH TRAILER
+                      <AiOutlinePlayCircle className="mr-2 text-xl icon-trailer" /> WATCH TRAILER
                     </button>
                   </a>
                 </div>
@@ -84,7 +84,7 @@ const Home = () => {
                   <p className="text-white mb-8 ">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic ad rem odio, saepe voluptate aut quo nam sapiente explicabo perferendis?</p>
                   <a href="https://www.youtube.com/watch?v=--v6zWSR_Ko&ab_channel=MadmanAnime">
                     <button className="button-watch rounded-3xl px-6 py-2 font-semibold flex items-center ">
-                      <AiOutlinePlayCircle className="mr-2 text-xl " /> WATCH TRAILER
+                      <AiOutlinePlayCircle className="mr-2 text-xl icon-trailer" /> WATCH TRAILER
                     </button>
                   </a>
                 </div>
@@ -102,7 +102,7 @@ const Home = () => {
                   <p className="text-white mb-8 ">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic ad rem odio, saepe voluptate aut quo nam sapiente explicabo perferendis?</p>
                   <a href="https://www.youtube.com/watch?v=sasgDq9jidk&ab_channel=AnimexMoviesHD">
                     <button className="button-watch rounded-3xl px-6 py-2 font-semibold flex items-center">
-                      <AiOutlinePlayCircle className="mr-2 text-xl" /> WATCH TRAILER
+                      <AiOutlinePlayCircle className="mr-2 text-xl icon-trailer" /> WATCH TRAILER
                     </button>
                   </a>
                 </div>

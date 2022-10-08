@@ -18,6 +18,7 @@ root.render(
         <Route path="/movie/:id" element={<Details />} />
         <Route path="/search/:nama" element={<Search />} />
         <Route path="/category/:cat" element={<Search />} />
+        <Route path="/all-movie" element={<Search />} />
       </Routes>
       <Footers />
     </BrowserRouter>

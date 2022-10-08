@@ -54,9 +54,6 @@
     width: 300px;
   }
 
-  .popular {
-    margin-bottom: 10px;
-  }
   .images {
     height: 50vh;
   }
@@ -65,7 +62,7 @@
   }
 
   .images img {
-    height: auto;
+    height: 50vh;
   }
 
   .header h1 {
@@ -74,10 +71,6 @@
 
   .header p {
     font-size: 1rem;
-  }
-
-  .header .rating {
-    display: none;
   }
 
   .header button {
@@ -91,8 +84,62 @@
     top: 20%;
     bottom: 0;
   }
+}
 
-  .section-movie {
-    margin-top: 0;
+@media screen and (max-width: 576px) {
+  nav .nav-search {
+    display: none;
+  }
+
+  nav .nav-buttons {
+    display: none;
+  }
+  nav .logo {
+    width: 120px;
+  }
+
+  .images {
+    height: 50vh;
+  }
+  .header {
+    width: 70%;
+  }
+
+  .header h1 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+
+  .header p {
+    font-size: 0.6rem;
+    margin-bottom: 10px;
+  }
+
+  .header .icon-trailer {
+    font-size: 0.8rem;
+  }
+
+  .header button {
+    padding: 4px 10px !important;
+    font-weight: 400;
+    font-size: 0.5rem;
+  }
+  .carousel-caption {
+    left: 0px;
+    right: 0;
+    top: 20%;
+    bottom: 0;
+  }
+
+  .title-contents h2 {
+    font-size: 1.4rem;
+  }
+
+  .title-contents p {
+    font-size: 0.9rem;
+  }
+
+  footer p {
+    font-size: 0.8rem;
   }
 }
