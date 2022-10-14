@@ -50,6 +50,10 @@
 }
 
 @media screen and (max-width: 1024px) {
+  .wrapper-search {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
   nav .nav-search {
     width: 300px;
   }
@@ -87,6 +91,10 @@
 }
 
 @media screen and (max-width: 576px) {
+  .wrapper-search {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   nav .nav-search {
     display: none;
   }

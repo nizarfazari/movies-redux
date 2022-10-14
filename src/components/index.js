@@ -1,4 +1,6 @@
 import Navbars from "./Navbar/Navbars";
 import Slider from "./Slider/Slider";
 import Loader from "./Loader/Loader";
-export { Navbars, Slider, Loader };
+import Modals from "./Modals/Modals";
+
+export { Navbars, Slider, Loader, Modals };

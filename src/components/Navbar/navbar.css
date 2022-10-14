@@ -38,3 +38,23 @@ nav .button-register {
   background-color: #f33f3f;
   color: white;
 }
+
+.modal-body input {
+  border: 1px solid grey;
+}
+
+/* .modal-body input:focus-visible {
+  border: 1px solid #f33f3f;
+  outline: #f33f3f;
+} */
+
+.modal-body .button-login {
+  background-color: #f33f3f;
+  color: white;
+  margin-left: 16px;
+}
+
+.modal-body input.input-error {
+  border: 1px solid #f33f3f;
+  outline: #f33f3f;
+}

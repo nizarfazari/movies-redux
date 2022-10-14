@@ -68,7 +68,7 @@ const Search = () => {
         )}
 
         {movies.length > 0 ? (
-          <div className=" grid grid-cols-4 gap-5">
+          <div className="wrapper-search grid grid-cols-4 gap-5">
             {movies.map((movie) => {
               return (
                 <div className="movie-card relative overflow-hidden">

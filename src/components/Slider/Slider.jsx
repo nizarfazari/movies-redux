@@ -156,7 +156,7 @@ const Slider = (props) => {
             clickable: true,
           }}
           breakpoints={{
-            375: {
+            576: {
               slidesPerView: 2,
             },
             768: {

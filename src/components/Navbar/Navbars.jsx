@@ -1,10 +1,27 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import Modals from "../Modals/Modals";
 
 import "./navbar.css";
 
 const Navbars = () => {
   const navigate = useNavigate();
+  const [log, setShowLog] = useState(false);
+  const [reg, setShowReg] = useState(false);
+
+  const loginHandleClose = () => setShowLog(false);
+  const loginHandleShow = () => setShowLog(true);
+  const registerHandleClose = () => setShowReg(false);
+  const registerHandleShow = () => setShowReg(true);
+  // const getDataMe = async () => {
+  //   const data = await axios.get("http://notflixtv.herokuapp.com/api/v1/users/me",{
+
+  //   });
+  // }
+
+  useEffect(() => {}, []);
 
   const searchButton = async (e) => {
     e.preventDefault();
@@ -32,8 +49,21 @@ const Navbars = () => {
           </div>
         </form>
         <div className="nav-buttons flex gap-x-2">
-          <button className="button-login rounded-3xl px-6 py-2">Login</button>
-          <button className="button-register rounded-3xl px-6 py-2 font-medium">Register</button>
+          {localStorage.getItem("datas") ? (
+            "profile"
+          ) : (
+            <>
+              <button className="button-login rounded-3xl px-6 py-2" onClick={loginHandleShow}>
+                Login
+              </button>
+              <button className="button-register rounded-3xl px-6 py-2 font-medium" onClick={registerHandleShow}>
+                Register
+              </button>
+            </>
+          )}
+
+          <Modals loginHandleClose={loginHandleClose} log={log} />
+          <Modals registerHandleClose={registerHandleClose} reg={reg} />
         </div>
       </div>
     </nav>
