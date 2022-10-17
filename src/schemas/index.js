@@ -12,6 +12,6 @@ export const registerSchema = yup.object().shape({
   password: yup.string().min(3).required("Required"),
   passConf: yup
     .string()
-    .oneOf([yup.ref("password"), null])
+    .oneOf([yup.ref("password"), null], "Password and its confirmation must be the same")
     .required("Required"),
 });

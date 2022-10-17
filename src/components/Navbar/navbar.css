@@ -58,3 +58,23 @@ nav .button-register {
   border: 1px solid #f33f3f;
   outline: #f33f3f;
 }
+
+#dropdown-basic {
+  border: none;
+  outline: none;
+  background: none;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+.grouping-input span input {
+  width: 100%;
+}
+
+.grouping-input span .icon {
+  top: 10px;
+  right: 20px;
+  font-size: 20px;
+}
