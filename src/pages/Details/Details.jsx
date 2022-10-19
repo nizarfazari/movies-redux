@@ -54,7 +54,7 @@ const Details = () => {
                   <p className="rating flex items-center mb-8 font-bold">
                     <AiFillStar className="mr-2" style={{ color: "#fcd34d" }} /> {Math.min(movie.vote_average).toFixed(1)} / 10
                   </p>
-                  <button className="button-watch rounded-3xl px-6 py-2 font-semibold flex items-center" onClick={handleShow}>
+                  <button className="button-full rounded-3xl px-6 py-2 font-semibold flex items-center" onClick={handleShow}>
                     <AiOutlinePlayCircle className="mr-2 text-xl" /> WATCH TRAILER
                   </button>
                   <Modal show={show} onHide={handleClose} centered>

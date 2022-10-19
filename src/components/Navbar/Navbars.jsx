@@ -12,7 +12,7 @@ const Navbars = () => {
   const [log, setShowLog] = useState(false);
   const [reg, setShowReg] = useState(false);
   const [datas, setDatas] = useState([]);
-
+  console.log(datas);
   const loginHandleClose = () => setShowLog(false);
   const loginHandleShow = () => setShowLog(true);
   const registerHandleClose = () => setShowReg(false);
@@ -20,7 +20,7 @@ const Navbars = () => {
 
   const getDataGoogle = () => {
     const data = JSON.parse(localStorage.getItem("profile"));
-    console.log(data);
+    
     setDatas(data);
   };
 
@@ -67,7 +67,7 @@ const Navbars = () => {
                 <Dropdown.Toggle id="dropdown-basic">
                   <div className="flex items-center">
                     <span className="w-10 ">
-                      <img className="rounded-full" src={datas.imageUrl} alt="" />
+                      <img className="rounded-full" src={`https://ui-avatars.com/api/?name=${datas.imageUrl}`} alt="" />
                     </span>
                     <span>
                       <h1 className="hidden sm:block text-white ml-3 text-lg">
@@ -80,7 +80,8 @@ const Navbars = () => {
                 <Dropdown.Toggle id="dropdown-basic">
                   <div className="flex items-center">
                     <span className="w-10 ">
-                      <img className="rounded-full" src={datas.image} alt="" />
+                      {datas.image ? (<img className="rounded-full" src={datas.image} alt="" />) :<img className="rounded-full" src={`https://ui-avatars.com/api/?name=${datas.image}`} alt="" /> }
+                  
                     </span>
                     <span>
                       <h1 className="hidden sm:block text-white ml-3 text-lg">

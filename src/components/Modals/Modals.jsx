@@ -2,7 +2,7 @@ import axios from "axios";
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import { GoogleLogin } from "react-google-login";
+import { GoogleLogin,GoogleOAuthProvider } from '@react-oauth/google';
 import { loginSchema, registerSchema } from "../../schemas";
 import { MdOutlineMailOutline, MdPersonOutline, MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeOffLine } from "react-icons/ri";
@@ -34,10 +34,11 @@ const Modals = (props) => {
     validationSchema: registerSchema,
   });
 
-  const responseGoogle = async (response) => {
+  const responseGoogle =  (response) => {
     try {
-      localStorage.setItem("token", response.accessToken);
-      localStorage.setItem("profile", JSON.stringify(response.profileObj));
+      console.log(response);
+      localStorage.setItem("token", response.credential);
+      localStorage.setItem("profile", JSON.stringify({imageUrl : 'asdas', givenName: 'nizar',familyName: 'fazari'}));
       Swal.fire({
         position: "center",
         icon: "success",
@@ -46,18 +47,17 @@ const Modals = (props) => {
         timer: 1500,
       });
       props.loginHandleClose();
-      props.getDataMe();
       props.getDataGoogle();
     } catch (error) {
       console.log(error);
     }
   };
-  gapi.load("client:auth2", () => {
-    gapi.auth2.init({
-      clientId: "376587108230-nv528gnfio7b42i0l1h4idnj24o2v6eb.apps.googleusercontent.com",
-      plugin_name: "",
-    });
-  });
+  // gapi.load("client:auth2", () => {
+  //   gapi.auth2.init({
+  //     clientId: "376587108230-nv528gnfio7b42i0l1h4idnj24o2v6eb.apps.googleusercontent.com",
+  //     plugin_name: "",
+  //   });
+  // });
 
   const handleSubmit = async (e, type) => {
     if (type === "login") {
@@ -169,18 +169,19 @@ const Modals = (props) => {
                   {errors.password && touched.password && <p className="error text-sm text-red-600 mt-1 ml-4">{errors.password}</p>}
                 </div>
               </div>
-              <div className="buttons-modal flex align-center">
-                <button className="button-login rounded-3xl px-6 py-2 mt-3">Login</button>
+                <GoogleOAuthProvider clientId="376587108230-nv528gnfio7b42i0l1h4idnj24o2v6eb.apps.googleusercontent.com">
+              <div className="buttons-modal flex align-center mt-3">
+                <button className="button-login rounded-3xl px-6 py-2 ">Login</button>
+                <div className="button-google ml-3">
                 <GoogleLogin
-                  className="ml-4 h-10 mt-3 "
-                  scope="profile"
-                  clientId="376587108230-nv528gnfio7b42i0l1h4idnj24o2v6eb.apps.googleusercontent.com"
-                  buttonText="Login"
                   onSuccess={responseGoogle}
-                  onFailure={responseGoogle}
-                  cookiePolicy={"single_host_origin"}
+                  onError={() => {
+                    console.log('Login Failed');
+                  }}
                 />
+                </div>
               </div>
+                </GoogleOAuthProvider>
             </form>
           </Modal.Body>
         </Modal>
