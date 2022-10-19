@@ -30,9 +30,18 @@
   padding: 0 1%;
 }
 
-.container .button-watch {
+.button-full {
+  border: 1px solid #f33f3f;
   background-color: #f33f3f;
+  transition: 0.5s ease-in;
   color: white;
+}
+
+.button-full:hover {
+  border: 1px solid #f33f3f;
+  color: #f33f3f;
+  background: transparent;
+  transition: 0.5s ease-in;
 }
 
 .title-contents p {

@@ -2,9 +2,12 @@ import axios from "axios";
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
+import { GoogleLogin } from "react-google-login";
 import { loginSchema, registerSchema } from "../../schemas";
 import { MdOutlineMailOutline, MdPersonOutline, MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeOffLine } from "react-icons/ri";
+import { gapi } from "gapi-script";
+import Swal from "sweetalert2";
 
 const Modals = (props) => {
   const [passLogin, setPassLog] = useState(false);
@@ -31,6 +34,31 @@ const Modals = (props) => {
     validationSchema: registerSchema,
   });
 
+  const responseGoogle = async (response) => {
+    try {
+      localStorage.setItem("token", response.accessToken);
+      localStorage.setItem("profile", JSON.stringify(response.profileObj));
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Your work has been saved",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      props.loginHandleClose();
+      props.getDataMe();
+      props.getDataGoogle();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  gapi.load("client:auth2", () => {
+    gapi.auth2.init({
+      clientId: "376587108230-nv528gnfio7b42i0l1h4idnj24o2v6eb.apps.googleusercontent.com",
+      plugin_name: "",
+    });
+  });
+
   const handleSubmit = async (e, type) => {
     if (type === "login") {
       try {
@@ -41,17 +69,23 @@ const Modals = (props) => {
         };
         const data = await axios.post("https://notflixtv.herokuapp.com/api/v1/users/login", payload);
         // console.log(data.status === 200);
-        localStorage.setItem("datas", JSON.stringify(data.data.data.token));
+        localStorage.setItem("token", JSON.stringify(data.data.data.token));
+        Swal.fire({
+          position: "mid",
+          icon: "success",
+          title: "Login success",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         props.loginHandleClose();
-        // if (data.response.status === 200) {
-        //   localStorage.setItem("datas", JSON.stringify(data.data.data.token));
-        //   props.loginHandleClose();
-        // }
-        // if (data.response.status === 400) {
-        //   setAllert(true);
-        // }
+        props.getDataMe();
       } catch (error) {
         console.log(error);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.response.data.message,
+        });
       }
     }
     if (type === "register") {
@@ -65,10 +99,22 @@ const Modals = (props) => {
           password_confirmation: register.values.passConf,
         };
         const data = await axios.post("https://notflixtv.herokuapp.com/api/v1/users", payload);
-
+        localStorage.setItem("token", JSON.stringify(data.data.data.token));
+        Swal.fire({
+          position: "mid",
+          icon: "success",
+          title: "Register Success",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         props.registerHandleClose();
+        props.getDataMe();
       } catch (error) {
-        console.log(error);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `${error.response.data.message}`,
+        });
       }
     }
   };
@@ -123,7 +169,18 @@ const Modals = (props) => {
                   {errors.password && touched.password && <p className="error text-sm text-red-600 mt-1 ml-4">{errors.password}</p>}
                 </div>
               </div>
-              <button className="button-login rounded-3xl px-6 py-2 mt-3">Login</button>
+              <div className="buttons-modal flex align-center">
+                <button className="button-login rounded-3xl px-6 py-2 mt-3">Login</button>
+                <GoogleLogin
+                  className="ml-4 h-10 mt-3 "
+                  scope="profile"
+                  clientId="376587108230-nv528gnfio7b42i0l1h4idnj24o2v6eb.apps.googleusercontent.com"
+                  buttonText="Login"
+                  onSuccess={responseGoogle}
+                  onFailure={responseGoogle}
+                  cookiePolicy={"single_host_origin"}
+                />
+              </div>
             </form>
           </Modal.Body>
         </Modal>

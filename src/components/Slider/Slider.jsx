@@ -46,7 +46,7 @@ const Slider = (props) => {
           {genres &&
             genres.map((genre) => {
               return (
-                <SwiperSlide className="cursor-pointer h-auto mb-10 me-4 genre-slider" key={genre.id} onClick={() => navigate(`/category/${genre.name}`)}>
+                <SwiperSlide className="cursor-pointer h-auto mb-10 me-4 genre-slider" key={genre.id} onClick={() => navigate(`/category/${genre.id}`, { state: genre.name })}>
                   <button className="button-genre rounded-3xl px-6 py-2">{genre.name}</button>
                 </SwiperSlide>
               );
@@ -81,7 +81,10 @@ const Slider = (props) => {
             casts.map((cast) => {
               return (
                 <SwiperSlide className="cursor-pointer" key={cast.id}>
-                  <img className="rounded-xl mb-3" src={`${IMG_URL_500}/${cast.profile_path}`} onLoad={onImageLoaded} alt="" />
+                  <div className="relative">
+                    <img className="rounded-xl mb-3" src={`${IMG_URL_500}/${cast.profile_path}`} onLoad={onImageLoaded} alt="" />
+                  </div>
+
                   {!loaded && <Loader />}
                   <h1 className="font-bold text-lg mb-1">{cast.name}</h1>
                   <p className="text-gray-500">{cast.character}</p>

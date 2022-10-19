@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Details, Home, Search } from "./pages";
+import { Details, Home, Movies, Search } from "./pages";
 import { Navbars } from "./components";
 import Footers from "./components/Footer/Footers";
 
@@ -18,7 +18,7 @@ root.render(
         <Route path="/movie/:id" element={<Details />} />
         <Route path="/search/:nama" element={<Search />} />
         <Route path="/category/:cat" element={<Search />} />
-        <Route path="/all-movie" element={<Search />} />
+        <Route path="/all-movies" element={<Movies />} />
       </Routes>
       <Footers />
     </BrowserRouter>

@@ -1,43 +1,28 @@
 import React, { useEffect, useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
-import { useLocation, useParams } from "react-router-dom";
-import { AiFillStar } from "react-icons/ai";
+import { Loader } from "../../components";
 import { API_TMDB_URL, BASE_URL, IMG_URL } from "../../utils/API/api";
 import { BsFileEarmarkText } from "react-icons/bs";
+import { AiFillStar } from "react-icons/ai";
 import axios from "axios";
-import { Loader, Slider } from "../../components";
-const Search = () => {
-  const [movies, setMovies] = useState([]);
-  const [genres, setGenres] = useState([]);
-  const [loaded, setLoaded] = useState(false);
 
-  const { nama, cat } = useParams();
-  const location = useLocation();
+const Movies = () => {
+  const [loaded, setLoaded] = useState(false);
+  const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    if (nama) {
-      getMovies(nama);
-    } else {
-      getCategories(cat);
-    }
-  }, [nama, cat]);
+    getMovie();
+  }, []);
+
+  const getMovie = async () => {
+    const dataMovies = await axios.get(`${BASE_URL}/discover/movie?api_key=${API_TMDB_URL}`);
+    console.log(dataMovies);
+    setMovies(dataMovies.data.results);
+  };
 
   const onImageLoaded = () => {
     setLoaded(true);
   };
-  const getMovies = async (nama) => {
-    const dataMovies = await axios.get(`${BASE_URL}/search/movie?api_key=${API_TMDB_URL}&query=${nama}`);
-    setMovies(dataMovies.data.results);
-  };
-
-  const getCategories = async (cat) => {
-    const dataMovies = await axios.get(`${BASE_URL}/discover/movie?api_key=${API_TMDB_URL}&with_genres=${cat}`);
-    const dataGenre = await axios.get(`${BASE_URL}/genre/movie/list?api_key=${API_TMDB_URL}`);
-
-    setGenres(dataGenre.data.genres);
-    setMovies(dataMovies.data.results);
-  };
-
   return (
     <div>
       <Carousel fade controls={false} indicators={false}>
@@ -48,11 +33,7 @@ const Search = () => {
           <Carousel.Caption>
             <div className="container">
               <div className="text-start">
-                {cat ? (
-                  <h1 className="text-white xl:text-6xl sm:text-5xl text-3xl font-semibold leading-tight mb-5 capitalize">Genre "{location.state}"</h1>
-                ) : (
-                  <h1 className="text-white xl:text-6xl sm:text-5xl text-3xl font-semibold leading-tight mb-5 capitalize">All Movies "{nama}"</h1>
-                )}
+                <h1 className="text-white xl:text-6xl sm:text-5xl text-3xl font-semibold leading-tight mb-5 capitalize">All Movies</h1>
               </div>
             </div>
           </Carousel.Caption>
@@ -60,15 +41,7 @@ const Search = () => {
       </Carousel>
 
       <section className="container my-14" style={{ minHeight: "40vh" }}>
-        {cat ? (
-          <>
-            <h1 className="xl:text-4xl sm:text-3xl text-2xl font-semibold leading-tight xl:mb-14 mb-8">Browse by Category "{location.state}"</h1>
-            <Slider genres={genres} />
-          </>
-        ) : (
-          <h1 className="xl:text-4xl sm:text-3xl text-2xl font-semibold leading-tight xl:mb-14 mb-8">Search Result "{nama}"</h1>
-        )}
-
+        <h1 className="xl:text-4xl sm:text-3xl text-2xl font-semibold leading-tight xl:mb-14 mb-8">Result All Movies</h1>
         {movies.length > 0 ? (
           <div className="wrapper-search grid grid-cols-4 gap-5">
             {movies.map((movie) => {
@@ -100,4 +73,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default Movies;

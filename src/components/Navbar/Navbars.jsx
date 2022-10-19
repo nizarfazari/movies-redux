@@ -1,9 +1,8 @@
-import { data } from "autoprefixer";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { AiOutlineSearch } from "react-icons/ai";
-import { json, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Modals from "../Modals/Modals";
 
 import "./navbar.css";
@@ -18,20 +17,23 @@ const Navbars = () => {
   const loginHandleShow = () => setShowLog(true);
   const registerHandleClose = () => setShowReg(false);
   const registerHandleShow = () => setShowReg(true);
+
+  const getDataGoogle = () => {
+    const data = JSON.parse(localStorage.getItem("profile"));
+    console.log(data);
+    setDatas(data);
+  };
+
   const getDataMe = async () => {
     try {
       let config = {
-        headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem("datas"))}` },
+        headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}` },
       };
       const data = await axios.get("https://notflixtv.herokuapp.com/api/v1/users/me", config);
 
       setDatas(data.data.data);
     } catch (error) {}
   };
-
-  useEffect(() => {
-    getDataMe();
-  }, [datas]);
 
   const searchButton = async (e) => {
     e.preventDefault();
@@ -54,44 +56,65 @@ const Navbars = () => {
         </div>
         <form className="" onSubmit={(e) => searchButton(e)}>
           <div className="nav-search relative w-80 flex ">
-            <input className=" py-2 pl-5  rounded-3xl " type="text" placeholder="What do you want to watch?" name="search" />
+            <input className="py-2 pl-5  rounded-3xl " type="text" placeholder="What do you want to watch?" name="search" />
             <AiOutlineSearch className="icon absolute" />
           </div>
         </form>
         <div className="nav-buttons flex gap-x-2">
-          {localStorage.getItem("datas") ? (
+          {localStorage.getItem("token") ? (
             <Dropdown>
-              <Dropdown.Toggle id="dropdown-basic">
-                <div className="flex items-center">
-                  <span className="w-10 ">
-                    <img className="rounded-full" src={datas.image} alt="" />
-                  </span>
-                  <span>
-                    <h1 className="hidden sm:block text-white ml-3 text-lg">
-                      {datas.first_name} {datas.last_name}
-                    </h1>
-                  </span>
-                </div>
-              </Dropdown.Toggle>
+              {localStorage.getItem("profile") ? (
+                <Dropdown.Toggle id="dropdown-basic">
+                  <div className="flex items-center">
+                    <span className="w-10 ">
+                      <img className="rounded-full" src={datas.imageUrl} alt="" />
+                    </span>
+                    <span>
+                      <h1 className="hidden sm:block text-white ml-3 text-lg">
+                        {datas.givenName} {datas.familyName}
+                      </h1>
+                    </span>
+                  </div>
+                </Dropdown.Toggle>
+              ) : (
+                <Dropdown.Toggle id="dropdown-basic">
+                  <div className="flex items-center">
+                    <span className="w-10 ">
+                      <img className="rounded-full" src={datas.image} alt="" />
+                    </span>
+                    <span>
+                      <h1 className="hidden sm:block text-white ml-3 text-lg">
+                        {datas.first_name} {datas.last_name}
+                      </h1>
+                    </span>
+                  </div>
+                </Dropdown.Toggle>
+              )}
 
               <Dropdown.Menu className="mt-2">
                 <Dropdown.Item href="#/action-1">Edit Profile</Dropdown.Item>
-                <Dropdown.Item onClick={() => localStorage.clear()}>Logout</Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() => {
+                    localStorage.clear();
+                    window.location.reload();
+                  }}
+                >
+                  Logout
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           ) : (
             <>
-              <button className="button-login rounded-3xl px-6 py-2" onClick={loginHandleShow}>
+              <button className="button-border rounded-3xl px-6 py-2" onClick={loginHandleShow}>
                 Login
               </button>
-              <button className="button-register rounded-3xl px-6 py-2 font-medium" onClick={registerHandleShow}>
+              <button className="button-full rounded-3xl px-6 py-2 font-medium" onClick={registerHandleShow}>
                 Register
               </button>
             </>
           )}
-
-          <Modals loginHandleClose={loginHandleClose} log={log} />
-          <Modals registerHandleClose={registerHandleClose} reg={reg} />
+          <Modals loginHandleClose={loginHandleClose} log={log} getDataMe={getDataMe} getDataGoogle={getDataGoogle} />
+          <Modals registerHandleClose={registerHandleClose} reg={reg} getDataMe={getDataMe} />
         </div>
       </div>
     </nav>
