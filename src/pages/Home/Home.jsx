@@ -1,57 +1,29 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import { AiOutlinePlayCircle, AiOutlineArrowRight } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { Akame, Kakegurui, Shokugeki } from "../../assets";
 import { Slider } from "../../components";
-import { API_TMDB_URL, BASE_URL } from "../../utils/API/api";
+import { useDispatch, useSelector } from "react-redux";
 import "./home.css";
+import { getMoviesPupular, getMoviesTop } from "../../app/feature/movies";
+import { getGenres } from "../../app/feature/genres";
 
 const Home = () => {
-  const [popmovies, setpopMovies] = useState([]);
-  const [topmovies, settopMovies] = useState([]);
-  const [genre, setGenre] = useState([]);
+  const { popMovies, topMovies } = useSelector((state) => state.movies);
+
+  console.log(popMovies);
+  const genres = useSelector((state) => state.genres);
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    getData();
-  }, []);
-
-  const getData = async () => {
-    try {
-      await axios
-        .get(`${BASE_URL}/movie/popular`, {
-          params: {
-            api_key: API_TMDB_URL,
-          },
-        })
-        .then((res) => {
-          setpopMovies(res.data.results);
-        });
-
-      await axios
-        .get(`${BASE_URL}/movie/top_rated`, {
-          params: {
-            api_key: API_TMDB_URL,
-          },
-        })
-        .then((res) => {
-          settopMovies(res.data.results);
-        });
-      await axios
-        .get(`${BASE_URL}/genre/movie/list`, {
-          params: {
-            api_key: API_TMDB_URL,
-          },
-        })
-        .then((res) => {
-          setGenre(res.data.genres);
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    // getData();
+    dispatch(getMoviesPupular());
+    dispatch(getMoviesTop());
+    dispatch(getGenres());
+  }, [dispatch]);
 
   return (
     <div className="">
@@ -66,7 +38,7 @@ const Home = () => {
                 <div className="header text-start">
                   <h1 className="font-medium text-7xl text-white mb-8 ">Kakegurui</h1>
                   <p className="text-white mb-8 ">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic ad rem odio, saepe voluptate aut quo nam sapiente explicabo perferendis?</p>
-                  <a href="https://www.youtube.com/watch?v=cTlHQiRNVl0&t=11s&ab_channel=Netflix">
+                  <a href={Akame}>
                     <button className="button-full rounded-3xl px-6 py-2 flex items-center font-semibold">
                       <AiOutlinePlayCircle className="mr-2 text-xl icon-trailer" /> WATCH TRAILER
                     </button>
@@ -95,7 +67,7 @@ const Home = () => {
           </Carousel.Item>
           <Carousel.Item>
             <div className="images relative">
-              <img className="d-block w-100 absolute" src="https://images.alphacoders.com/592/592540.jpg" alt="Second slide" />
+              <img className="d-block w-100 absolute" src={Akame} alt="Second slide" />
             </div>
             <Carousel.Caption>
               <div className="container ">
@@ -121,15 +93,15 @@ const Home = () => {
               See All Movie <AiOutlineArrowRight className="ml-4" />
             </p>
           </div>
-          <Slider movies={popmovies} />
+          <Slider movies={popMovies} />
           <div className="title-contents flex xl:items-center xl:flex-row flex-col justify-between xl:mb-14 mb-10 mt-20">
             <h2 className="text-4xl font-semibold ">Browse by Category</h2>
             <p className="xl:text-lg text-base flex items-center cursor-pointer" onClick={() => navigate("/all-movies")}>
               See All Movie <AiOutlineArrowRight className="ml-4" />
             </p>
           </div>
-          <Slider genres={genre} />
-          <Slider movies={topmovies} />
+          <Slider genres={genres.genres} />
+          <Slider movies={topMovies} />
         </div>
       </section>
     </div>

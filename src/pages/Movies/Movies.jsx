@@ -1,24 +1,23 @@
 import React, { useEffect, useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import { Loader } from "../../components";
-import { API_TMDB_URL, BASE_URL, IMG_URL } from "../../utils/API/api";
+import { IMG_URL } from "../../utils/API/api";
 import { BsFileEarmarkText } from "react-icons/bs";
 import { AiFillStar } from "react-icons/ai";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+
+import { getMoviesPupular } from "../../app/feature/movies";
 
 const Movies = () => {
+  const { popMovies } = useSelector((state) => state.movies);
+  console.log(popMovies);
+  const dispatch = useDispatch();
   const [loaded, setLoaded] = useState(false);
-  const [movies, setMovies] = useState([]);
+  // const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    getMovie();
-  }, []);
-
-  const getMovie = async () => {
-    const dataMovies = await axios.get(`${BASE_URL}/discover/movie?api_key=${API_TMDB_URL}`);
-    console.log(dataMovies);
-    setMovies(dataMovies.data.results);
-  };
+    dispatch(getMoviesPupular());
+  }, [dispatch]);
 
   const onImageLoaded = () => {
     setLoaded(true);
@@ -42,9 +41,9 @@ const Movies = () => {
 
       <section className="container my-14" style={{ minHeight: "40vh" }}>
         <h1 className="xl:text-4xl sm:text-3xl text-2xl font-semibold leading-tight xl:mb-14 mb-8">Result All Movies</h1>
-        {movies.length > 0 ? (
+        {popMovies.length > 0 ? (
           <div className="wrapper-search grid grid-cols-4 gap-5">
-            {movies.map((movie) => {
+            {popMovies.map((movie) => {
               return (
                 <div className="movie-card relative overflow-hidden">
                   <img className="rounded-xl" src={`${IMG_URL}/${movie.poster_path}`} onLoad={onImageLoaded} alt="" />

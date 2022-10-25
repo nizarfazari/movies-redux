@@ -7,21 +7,25 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Details, Home, Movies, Search } from "./pages";
 import { Navbars } from "./components";
 import Footers from "./components/Footer/Footers";
+import { store } from "./app/store/store";
+import { Provider } from "react-redux";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Navbars />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/movie/:id" element={<Details />} />
-        <Route path="/search/:nama" element={<Search />} />
-        <Route path="/category/:cat" element={<Search />} />
-        <Route path="/all-movies" element={<Movies />} />
-      </Routes>
-      <Footers />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Navbars />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/movie/:id" element={<Details />} />
+          <Route path="/search/:nama" element={<Search />} />
+          <Route path="/category/:cat" element={<Search />} />
+          <Route path="/all-movies" element={<Movies />} />
+        </Routes>
+        <Footers />
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>
 );
 
