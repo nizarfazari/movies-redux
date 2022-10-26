@@ -26,6 +26,9 @@ const Slider = (props) => {
     return (
       <>
         <Swiper
+          style={{
+            padding: "0 10px",
+          }}
           breakpoints={{
             375: {
               slidesPerView: 2,
@@ -37,7 +40,7 @@ const Slider = (props) => {
               slidesPerView: 6,
             },
           }}
-          spaceBetween={50}
+          spaceBetween={25}
           pagination={{
             clickable: true,
           }}
@@ -47,7 +50,7 @@ const Slider = (props) => {
             genres.map((genre) => {
               return (
                 <SwiperSlide className="cursor-pointer h-auto mb-10 me-4 genre-slider" key={genre.id} onClick={() => navigate(`/category/${genre.id}`, { state: genre.name })}>
-                  <button className="button-genre rounded-3xl px-6 py-2">{genre.name}</button>
+                  <button className="button-genre rounded-3xl px-5 py-2">{genre.name}</button>
                 </SwiperSlide>
               );
             })}

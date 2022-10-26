@@ -10,7 +10,7 @@ import { getMoviesPupular } from "../../app/feature/movies";
 
 const Movies = () => {
   const { popMovies } = useSelector((state) => state.movies);
-  console.log(popMovies);
+
   const dispatch = useDispatch();
   const [loaded, setLoaded] = useState(false);
   // const [movies, setMovies] = useState([]);

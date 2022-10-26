@@ -17,7 +17,13 @@ nav input {
   width: 100%;
   color: white;
 }
-
+nav input:focus-visible {
+  border: 2px solid #bf676d;
+  background: transparent;
+  width: 100%;
+  color: white;
+  outline: #bf676d;
+}
 nav .nav-search .icon {
   top: 10px;
   font-size: 25px;

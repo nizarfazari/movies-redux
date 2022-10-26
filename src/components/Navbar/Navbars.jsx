@@ -20,7 +20,7 @@ const Navbars = () => {
 
   const getDataGoogle = () => {
     const data = JSON.parse(localStorage.getItem("profile"));
-    
+
     setDatas(data);
   };
 
@@ -66,9 +66,7 @@ const Navbars = () => {
               {localStorage.getItem("profile") ? (
                 <Dropdown.Toggle id="dropdown-basic">
                   <div className="flex items-center">
-                    <span className="w-10 ">
-                      <img className="rounded-full" src={`https://ui-avatars.com/api/?name=${datas.imageUrl}`} alt="" />
-                    </span>
+                    <span className="w-10 ">{datas.imageUrl ? <img className="rounded-full" src={datas.imageUrl} alt="" /> : <img className="rounded-full" src={`https://ui-avatars.com/api/?name=${datas.imageUrl}`} alt="" />}</span>
                     <span>
                       <h1 className="hidden sm:block text-white ml-3 text-lg">
                         {datas.givenName} {datas.familyName}
@@ -79,10 +77,7 @@ const Navbars = () => {
               ) : (
                 <Dropdown.Toggle id="dropdown-basic">
                   <div className="flex items-center">
-                    <span className="w-10 ">
-                      {datas.image ? (<img className="rounded-full" src={datas.image} alt="" />) :<img className="rounded-full" src={`https://ui-avatars.com/api/?name=${datas.image}`} alt="" /> }
-                  
-                    </span>
+                    <span className="w-10 ">{datas.image ? <img className="rounded-full" src={datas.image} alt="" /> : <img className="rounded-full" src={`https://ui-avatars.com/api/?name=${datas.image}`} alt="" />}</span>
                     <span>
                       <h1 className="hidden sm:block text-white ml-3 text-lg">
                         {datas.first_name} {datas.last_name}

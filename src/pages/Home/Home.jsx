@@ -19,7 +19,6 @@ const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // getData();
     dispatch(getMoviesPupular());
     dispatch(getMoviesTop());
     dispatch(getGenres());

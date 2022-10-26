@@ -1,18 +1,22 @@
-import axios from "axios";
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import { GoogleLogin,GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { loginSchema, registerSchema } from "../../schemas";
 import { MdOutlineMailOutline, MdPersonOutline, MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeOffLine } from "react-icons/ri";
-import { gapi } from "gapi-script";
+import { useDispatch, useSelector } from "react-redux";
+import jwt_decode from "jwt-decode";
 import Swal from "sweetalert2";
+import { loginUser, regUser } from "../../app/feature/users";
 
 const Modals = (props) => {
   const [passLogin, setPassLog] = useState(false);
   const [passReg, setPassReg] = useState(false);
   const [passConf, setPassConf] = useState(false);
+  const dispatch = useDispatch();
+  const { login, registers, loading } = useSelector((state) => state.users);
+
   // const [allert, setAllert] = useState(false);
   // console.log(allert);
   const { handleChange, values, errors, touched, handleBlur } = useFormik({
@@ -34,11 +38,11 @@ const Modals = (props) => {
     validationSchema: registerSchema,
   });
 
-  const responseGoogle =  (response) => {
+  const responseGoogle = (response) => {
     try {
-      console.log(response);
+      let decoded = jwt_decode(response.credential);
       localStorage.setItem("token", response.credential);
-      localStorage.setItem("profile", JSON.stringify({imageUrl : 'asdas', givenName: 'nizar',familyName: 'fazari'}));
+      localStorage.setItem("profile", JSON.stringify({ imageUrl: decoded.picture, givenName: decoded.given_name, familyName: decoded.family_name }));
       Swal.fire({
         position: "center",
         icon: "success",
@@ -52,12 +56,6 @@ const Modals = (props) => {
       console.log(error);
     }
   };
-  // gapi.load("client:auth2", () => {
-  //   gapi.auth2.init({
-  //     clientId: "376587108230-nv528gnfio7b42i0l1h4idnj24o2v6eb.apps.googleusercontent.com",
-  //     plugin_name: "",
-  //   });
-  // });
 
   const handleSubmit = async (e, type) => {
     if (type === "login") {
@@ -67,9 +65,8 @@ const Modals = (props) => {
           email: values.email,
           password: values.password,
         };
-        const data = await axios.post("https://notflixtv.herokuapp.com/api/v1/users/login", payload);
-        // console.log(data.status === 200);
-        localStorage.setItem("token", JSON.stringify(data.data.data.token));
+        dispatch(loginUser(payload));
+        localStorage.setItem("token", JSON.stringify(login));
         Swal.fire({
           position: "mid",
           icon: "success",
@@ -98,8 +95,8 @@ const Modals = (props) => {
           password: register.values.password,
           password_confirmation: register.values.passConf,
         };
-        const data = await axios.post("https://notflixtv.herokuapp.com/api/v1/users", payload);
-        localStorage.setItem("token", JSON.stringify(data.data.data.token));
+        dispatch(regUser(payload));
+        localStorage.setItem("token", JSON.stringify(registers));
         Swal.fire({
           position: "mid",
           icon: "success",
@@ -123,7 +120,7 @@ const Modals = (props) => {
     return (
       <div>
         <Modal show={props.log} onHide={props.loginHandleClose}>
-          <Modal.Header>
+          <Modal.Header closeButton>
             <Modal.Title>
               <h1 className="mx-3 text-xl">Login</h1>
             </Modal.Title>
@@ -169,19 +166,19 @@ const Modals = (props) => {
                   {errors.password && touched.password && <p className="error text-sm text-red-600 mt-1 ml-4">{errors.password}</p>}
                 </div>
               </div>
-                <GoogleOAuthProvider clientId="376587108230-nv528gnfio7b42i0l1h4idnj24o2v6eb.apps.googleusercontent.com">
-              <div className="buttons-modal flex align-center mt-3">
-                <button className="button-login rounded-3xl px-6 py-2 ">Login</button>
-                <div className="button-google ml-3">
-                <GoogleLogin
-                  onSuccess={responseGoogle}
-                  onError={() => {
-                    console.log('Login Failed');
-                  }}
-                />
+              <GoogleOAuthProvider clientId="376587108230-nv528gnfio7b42i0l1h4idnj24o2v6eb.apps.googleusercontent.com">
+                <div className="buttons-modal flex align-center mt-3">
+                  <button className="button-login rounded-3xl px-6 py-2 ">Login</button>
+                  <div className="button-google ml-3">
+                    <GoogleLogin
+                      onSuccess={responseGoogle}
+                      onError={() => {
+                        console.log("Login Failed");
+                      }}
+                    />
+                  </div>
                 </div>
-              </div>
-                </GoogleOAuthProvider>
+              </GoogleOAuthProvider>
             </form>
           </Modal.Body>
         </Modal>
@@ -192,7 +189,7 @@ const Modals = (props) => {
     return (
       <div>
         <Modal show={props.reg} onHide={props.registerHandleClose}>
-          <Modal.Header>
+          <Modal.Header closeButton>
             <Modal.Title>
               <h1 className="mx-3 text-xl">Create Account</h1>
             </Modal.Title>

@@ -2,40 +2,31 @@ import React, { useEffect, useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import { useLocation, useParams } from "react-router-dom";
 import { AiFillStar } from "react-icons/ai";
-import { API_TMDB_URL, BASE_URL, IMG_URL } from "../../utils/API/api";
+import { IMG_URL } from "../../utils/API/api";
 import { BsFileEarmarkText } from "react-icons/bs";
-import axios from "axios";
 import { Loader, Slider } from "../../components";
+import { useDispatch, useSelector } from "react-redux";
+import { getSearchMovies, getByGenres } from "../../app/feature/search";
+import { getGenres } from "../../app/feature/genres";
 const Search = () => {
-  const [movies, setMovies] = useState([]);
-  const [genres, setGenres] = useState([]);
+  const { movies } = useSelector((state) => state.search);
+  const genres = useSelector((state) => state.genres);
+  const dispatch = useDispatch();
   const [loaded, setLoaded] = useState(false);
-
   const { nama, cat } = useParams();
   const location = useLocation();
 
   useEffect(() => {
     if (nama) {
-      getMovies(nama);
+      dispatch(getSearchMovies(nama));
     } else {
-      getCategories(cat);
+      dispatch(getGenres());
+      dispatch(getByGenres(cat));
     }
-  }, [nama, cat]);
+  }, [nama, cat, dispatch]);
 
   const onImageLoaded = () => {
     setLoaded(true);
-  };
-  const getMovies = async (nama) => {
-    const dataMovies = await axios.get(`${BASE_URL}/search/movie?api_key=${API_TMDB_URL}&query=${nama}`);
-    setMovies(dataMovies.data.results);
-  };
-
-  const getCategories = async (cat) => {
-    const dataMovies = await axios.get(`${BASE_URL}/discover/movie?api_key=${API_TMDB_URL}&with_genres=${cat}`);
-    const dataGenre = await axios.get(`${BASE_URL}/genre/movie/list?api_key=${API_TMDB_URL}`);
-
-    setGenres(dataGenre.data.genres);
-    setMovies(dataMovies.data.results);
   };
 
   return (
@@ -63,7 +54,7 @@ const Search = () => {
         {cat ? (
           <>
             <h1 className="xl:text-4xl sm:text-3xl text-2xl font-semibold leading-tight xl:mb-14 mb-8">Browse by Category "{location.state}"</h1>
-            <Slider genres={genres} />
+            <Slider genres={genres.genres} />
           </>
         ) : (
           <h1 className="xl:text-4xl sm:text-3xl text-2xl font-semibold leading-tight xl:mb-14 mb-8">Search Result "{nama}"</h1>

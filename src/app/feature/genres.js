@@ -12,7 +12,7 @@ export const getGenres = createAsyncThunk(
   "genres/getGenres",
   // callback function
   async () => {
-    const res = await await axios
+    const res = await axios
       .get(`${BASE_URL}/genre/movie/list`, {
         params: {
           api_key: API_TMDB_URL,
