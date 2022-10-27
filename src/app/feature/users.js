@@ -4,9 +4,6 @@ import axios from "axios";
 import jwt_decode from "jwt-decode";
 import Swal from "sweetalert2";
 const initialState = {
-  login: [],
-  registers: [],
-  dataMe: [],
   loading: false,
 };
 
@@ -41,7 +38,7 @@ export const loginUser = createAsyncThunk("users/loginUser", async (payload) => 
   }
 });
 
-export const loginGoogle = createAsyncThunk("users/loginUser", async (response) => {
+export const loginGoogle = createAsyncThunk("users/loginGoogle", async (response) => {
   try {
     let decoded = jwt_decode(response.credential);
     localStorage.setItem("token", response.credential);
