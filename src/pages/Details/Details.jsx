@@ -6,7 +6,7 @@ import { AiOutlinePlayCircle, AiFillStar } from "react-icons/ai";
 import { useParams } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 
-import { Slider } from "../../components";
+import { Loader, Slider } from "../../components";
 import { IMG_URL } from "../../utils/API/api";
 
 // import css
@@ -15,15 +15,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCasts, getMovieById, getReviews, getVideo } from "../../app/feature/details";
 const Details = () => {
   const { moviesId, videos, reviews, casts } = useSelector((state) => state.details);
-  console.log(videos);
+
   const dispatch = useDispatch();
   const { id } = useParams();
 
   const [show, setShow] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
+  const onImageLoaded = () => {
+    setLoaded(true);
+  };
   useEffect(() => {
     dispatch(getMovieById(id));
     dispatch(getVideo(id));
@@ -37,7 +40,8 @@ const Details = () => {
         <Carousel fade controls={false} indicators={false}>
           <Carousel.Item>
             <div className="images relative">
-              <img className="d-block w-100 absolute" src={`${IMG_URL}${moviesId.backdrop_path}`} alt="First slide" />
+              <img className="d-block w-100 absolute" src={`${IMG_URL}${moviesId.backdrop_path}`} onLoad={onImageLoaded} alt="First slide" />
+              {!loaded && <Loader />}
             </div>
             <Carousel.Caption>
               <div className="container ">

@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 // import { API_TMDB_URL, BASE_URL } from "../../utils/API/api";
-
+import jwt_decode from "jwt-decode";
+import Swal from "sweetalert2";
 const initialState = {
   login: [],
   registers: [],
@@ -18,13 +19,67 @@ export const getUserMe = createAsyncThunk("users/getUserMe", async () => {
 });
 
 export const loginUser = createAsyncThunk("users/loginUser", async (payload) => {
-  const res = await axios.post("https://notflixtv.herokuapp.com/api/v1/users/login", payload);
-  return res.data.data.token;
+  try {
+    const res = await axios.post("https://notflixtv.herokuapp.com/api/v1/users/login", payload);
+    localStorage.setItem("token", JSON.stringify(res.data.data.token));
+    Swal.fire({
+      position: "mid",
+      icon: "success",
+      title: "Login success",
+      showConfirmButton: false,
+      timer: 1000,
+    });
+    setTimeout(() => {
+      window.location.reload();
+    }, 1200);
+  } catch (error) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: error.response.data.message,
+    });
+  }
+});
+
+export const loginGoogle = createAsyncThunk("users/loginUser", async (response) => {
+  try {
+    let decoded = jwt_decode(response.credential);
+    localStorage.setItem("token", response.credential);
+    localStorage.setItem("profile", JSON.stringify({ imageUrl: decoded.picture, givenName: decoded.given_name, familyName: decoded.family_name }));
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Login success",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  } catch (error) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: `${error.response.data.message}`,
+    });
+  }
 });
 
 export const regUser = createAsyncThunk("users/regUser", async (payload) => {
-  const res = await axios.post("https://notflixtv.herokuapp.com/api/v1/users", payload);
-  return res.data.data.token;
+  try {
+    const res = await axios.post("https://notflixtv.herokuapp.com/api/v1/users", payload);
+    localStorage.setItem("token", JSON.stringify(res.data.data.token));
+    Swal.fire({
+      position: "mid",
+      icon: "success",
+      title: "Register Success",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  } catch (error) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: `${error.response.data.message}`,
+    });
+  }
 });
 
 export const usersSlice = createSlice({

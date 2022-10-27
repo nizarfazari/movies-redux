@@ -13,6 +13,7 @@
   filter: brightness(50%);
   background-size: cover;
   background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 .carousel-caption {
   left: 0px;

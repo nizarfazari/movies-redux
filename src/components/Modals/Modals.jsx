@@ -5,20 +5,16 @@ import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { loginSchema, registerSchema } from "../../schemas";
 import { MdOutlineMailOutline, MdPersonOutline, MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeOffLine } from "react-icons/ri";
-import { useDispatch, useSelector } from "react-redux";
-import jwt_decode from "jwt-decode";
-import Swal from "sweetalert2";
-import { loginUser, regUser } from "../../app/feature/users";
+import { useDispatch } from "react-redux";
+
+import { loginGoogle, loginUser, regUser } from "../../app/feature/users";
 
 const Modals = (props) => {
   const [passLogin, setPassLog] = useState(false);
   const [passReg, setPassReg] = useState(false);
   const [passConf, setPassConf] = useState(false);
   const dispatch = useDispatch();
-  const { login, registers, loading } = useSelector((state) => state.users);
 
-  // const [allert, setAllert] = useState(false);
-  // console.log(allert);
   const { handleChange, values, errors, touched, handleBlur } = useFormik({
     initialValues: {
       email: "",
@@ -39,80 +35,32 @@ const Modals = (props) => {
   });
 
   const responseGoogle = (response) => {
-    try {
-      let decoded = jwt_decode(response.credential);
-      localStorage.setItem("token", response.credential);
-      localStorage.setItem("profile", JSON.stringify({ imageUrl: decoded.picture, givenName: decoded.given_name, familyName: decoded.family_name }));
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Your work has been saved",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      props.loginHandleClose();
-      props.getDataGoogle();
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(loginGoogle(response));
+    props.loginHandleClose();
+    props.getDataGoogle();
   };
 
   const handleSubmit = async (e, type) => {
     if (type === "login") {
-      try {
-        e.preventDefault();
-        let payload = {
-          email: values.email,
-          password: values.password,
-        };
-        dispatch(loginUser(payload));
-        localStorage.setItem("token", JSON.stringify(login));
-        Swal.fire({
-          position: "mid",
-          icon: "success",
-          title: "Login success",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        props.loginHandleClose();
-        props.getDataMe();
-      } catch (error) {
-        console.log(error);
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: error.response.data.message,
-        });
-      }
+      e.preventDefault();
+      let payload = {
+        email: values.email,
+        password: values.password,
+      };
+      dispatch(loginUser(payload));
+      props.loginHandleClose();
     }
     if (type === "register") {
-      try {
-        e.preventDefault();
-        let payload = {
-          first_name: register.values.firstName,
-          last_name: register.values.lastName,
-          email: register.values.email,
-          password: register.values.password,
-          password_confirmation: register.values.passConf,
-        };
-        dispatch(regUser(payload));
-        localStorage.setItem("token", JSON.stringify(registers));
-        Swal.fire({
-          position: "mid",
-          icon: "success",
-          title: "Register Success",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        props.registerHandleClose();
-        props.getDataMe();
-      } catch (error) {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: `${error.response.data.message}`,
-        });
-      }
+      e.preventDefault();
+      let payload = {
+        first_name: register.values.firstName,
+        last_name: register.values.lastName,
+        email: register.values.email,
+        password: register.values.password,
+        password_confirmation: register.values.passConf,
+      };
+      dispatch(regUser(payload));
+      props.registerHandleClose();
     }
   };
 
@@ -304,12 +252,6 @@ const Modals = (props) => {
 
                   {register.errors.passConf && register.touched.passConf && <p className="error text-sm text-red-600 mt-1 ml-4">{register.errors.passConf}</p>}
                 </div>
-
-                {/* <input type="text" className="py-2 pl-5 mx-3  rounded-3xl " name="firstName" placeholder="First Name" value={register.values.firstName} onChange={register.handleChange} />
-                <input type="text" className="py-2 pl-5 mx-3 rounded-3xl " name="lastName" placeholder="Last Name" value={register.values.lastName} onChange={register.handleChange} />
-                <input type="email" className="py-2 pl-5 mx-3  rounded-3xl " name="email" placeholder="Email Address" value={register.values.email} onChange={register.handleChange} />
-                <input type="Password" className="py-2 pl-5 mx-3 rounded-3xl " name="password" placeholder="Password" value={register.values.password} onChange={register.handleChange} />
-                <input type="Password" className="py-2 pl-5 mx-3 rounded-3xl " name="passConf" placeholder="Password Confirmation" value={register.values.passConf} onChange={register.handleChange} /> */}
               </div>
               <button className="button-login rounded-3xl px-6 py-2 mt-3">Register Now</button>
             </form>

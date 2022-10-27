@@ -12,15 +12,10 @@ export const getSearchMovies = createAsyncThunk("search/getSearchMovies", async 
   return res.data.results;
 });
 
-export const getByGenres = createAsyncThunk(
-  //action type string
-  "search/getByGenres",
-  // callback function
-  async (cat) => {
-    const res = await axios.get(`${BASE_URL}/discover/movie?api_key=${API_TMDB_URL}&with_genres=${cat}`);
-    return res.data.results;
-  }
-);
+export const getByGenres = createAsyncThunk("search/getByGenres", async (cat) => {
+  const res = await axios.get(`${BASE_URL}/discover/movie?api_key=${API_TMDB_URL}&with_genres=${cat}`);
+  return res.data.results;
+});
 
 export const searchSlice = createSlice({
   name: "search",

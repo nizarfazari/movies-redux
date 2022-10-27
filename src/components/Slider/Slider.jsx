@@ -13,6 +13,7 @@ import { AiFillStar } from "react-icons/ai";
 import Loader from "../Loader/Loader";
 import { IMG_URL, IMG_URL_500 } from "../../utils/API/api";
 import { useNavigate } from "react-router-dom";
+import { Null } from "../../assets";
 
 const Slider = (props) => {
   const [loaded, setLoaded] = useState(false);
@@ -85,7 +86,13 @@ const Slider = (props) => {
               return (
                 <SwiperSlide className="cursor-pointer" key={cast.id}>
                   <div className="relative">
-                    <img className="rounded-xl mb-3" src={`${IMG_URL_500}/${cast.profile_path}`} onLoad={onImageLoaded} alt="" />
+                    {cast.profile_path ? (
+                      <img className="rounded-xl mb-3" src={`${IMG_URL_500}/${cast.profile_path}`} onLoad={onImageLoaded} alt="" />
+                    ) : (
+                      <div className="rounded-xl bg-gray-300">
+                        <img className="rounded-xl mb-3 casts-null" alt="" src={Null} />
+                      </div>
+                    )}
                   </div>
 
                   {!loaded && <Loader />}

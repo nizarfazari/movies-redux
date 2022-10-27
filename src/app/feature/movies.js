@@ -9,29 +9,37 @@ const initialState = {
 };
 
 export const getMoviesPupular = createAsyncThunk("movies/getMoviesPupular", async () => {
-  const res = await axios
-    .get(`${BASE_URL}/movie/popular`, {
-      params: {
-        api_key: API_TMDB_URL,
-      },
-    })
-    .then((res) => {
-      return res.data.results;
-    });
-  return res;
+  try {
+    const res = await axios
+      .get(`${BASE_URL}/movie/popular`, {
+        params: {
+          api_key: API_TMDB_URL,
+        },
+      })
+      .then((res) => {
+        return res.data.results;
+      });
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 export const getMoviesTop = createAsyncThunk("movies/getMoviesTop", async () => {
-  const res = await axios
-    .get(`${BASE_URL}/movie/top_rated`, {
-      params: {
-        api_key: API_TMDB_URL,
-      },
-    })
-    .then((res) => {
-      return res.data.results;
-    });
-  return res;
+  try {
+    const res = await axios
+      .get(`${BASE_URL}/movie/top_rated`, {
+        params: {
+          api_key: API_TMDB_URL,
+        },
+      })
+      .then((res) => {
+        return res.data.results;
+      });
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 export const movieSlice = createSlice({

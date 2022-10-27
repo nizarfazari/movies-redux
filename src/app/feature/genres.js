@@ -7,11 +7,8 @@ const initialState = {
   loading: false,
 };
 
-export const getGenres = createAsyncThunk(
-  //action type string
-  "genres/getGenres",
-  // callback function
-  async () => {
+export const getGenres = createAsyncThunk("genres/getGenres", async () => {
+  try {
     const res = await axios
       .get(`${BASE_URL}/genre/movie/list`, {
         params: {
@@ -22,8 +19,10 @@ export const getGenres = createAsyncThunk(
         return res.data.genres;
       });
     return res;
+  } catch (error) {
+    console.log(error);
   }
-);
+});
 
 export const genreSlice = createSlice({
   name: "genres",

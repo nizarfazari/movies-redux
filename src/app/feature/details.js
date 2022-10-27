@@ -9,45 +9,41 @@ const initialState = {
   casts: false,
 };
 
-export const getMovieById = createAsyncThunk(
-  //action type string
-  "details/getMovieById",
-  // callback function
-  async (id) => {
+export const getMovieById = createAsyncThunk("details/getMovieById", async (id) => {
+  try {
     const res = await axios.get(`${BASE_URL}/movie/${id}?api_key=${API_TMDB_URL}`);
     return res.data;
+  } catch (error) {
+    console.log(error);
   }
-);
+});
 
-export const getVideo = createAsyncThunk(
-  //action type string
-  "details/getVideo",
-  // callback function
-  async (id) => {
+export const getVideo = createAsyncThunk("details/getVideo", async (id) => {
+  try {
     const res = await axios.get(`${BASE_URL}/movie/${id}/videos?api_key=${API_TMDB_URL}`);
     return res.data.results[0].key;
+  } catch (error) {
+    console.log(error);
   }
-);
+});
 
-export const getReviews = createAsyncThunk(
-  //action type string
-  "details/getReviews",
-  // callback function
-  async (id) => {
+export const getReviews = createAsyncThunk("details/getReviews", async (id) => {
+  try {
     const res = await axios.get(`${BASE_URL}/movie/${id}/reviews?api_key=${API_TMDB_URL}`);
     return res.data;
+  } catch (error) {
+    console.log(error);
   }
-);
+});
 
-export const getCasts = createAsyncThunk(
-  //action type string
-  "details/getCasts",
-  // callback function
-  async (id) => {
+export const getCasts = createAsyncThunk("details/getCasts", async (id) => {
+  try {
     const res = await axios.get(`${BASE_URL}/movie/${id}/credits?api_key=${API_TMDB_URL}`);
     return res.data.cast.splice(0, 10);
+  } catch (error) {
+    console.log(error);
   }
-);
+});
 
 export const detailsSlice = createSlice({
   name: "details",

@@ -12,7 +12,6 @@ import { getGenres } from "../../app/feature/genres";
 const Home = () => {
   const { popMovies, topMovies } = useSelector((state) => state.movies);
 
-  console.log(popMovies);
   const genres = useSelector((state) => state.genres);
 
   const dispatch = useDispatch();

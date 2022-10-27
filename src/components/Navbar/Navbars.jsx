@@ -12,7 +12,7 @@ const Navbars = () => {
   const [log, setShowLog] = useState(false);
   const [reg, setShowReg] = useState(false);
   const [datas, setDatas] = useState([]);
-  console.log(datas);
+
   const loginHandleClose = () => setShowLog(false);
   const loginHandleShow = () => setShowLog(true);
   const registerHandleClose = () => setShowReg(false);
@@ -22,17 +22,6 @@ const Navbars = () => {
     const data = JSON.parse(localStorage.getItem("profile"));
 
     setDatas(data);
-  };
-
-  const getDataMe = async () => {
-    try {
-      let config = {
-        headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}` },
-      };
-      const data = await axios.get("https://notflixtv.herokuapp.com/api/v1/users/me", config);
-
-      setDatas(data.data.data);
-    } catch (error) {}
   };
 
   const searchButton = async (e) => {
@@ -109,8 +98,8 @@ const Navbars = () => {
               </button>
             </>
           )}
-          <Modals loginHandleClose={loginHandleClose} log={log} getDataMe={getDataMe} getDataGoogle={getDataGoogle} />
-          <Modals registerHandleClose={registerHandleClose} reg={reg} getDataMe={getDataMe} />
+          <Modals loginHandleClose={loginHandleClose} log={log} getDataGoogle={getDataGoogle} />
+          <Modals registerHandleClose={registerHandleClose} reg={reg} />
         </div>
       </div>
     </nav>
