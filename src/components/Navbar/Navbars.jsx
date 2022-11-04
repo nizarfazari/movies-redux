@@ -1,5 +1,4 @@
-import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
@@ -20,9 +19,12 @@ const Navbars = () => {
 
   const getDataGoogle = () => {
     const data = JSON.parse(localStorage.getItem("profile"));
-
     setDatas(data);
   };
+
+  useEffect(() => {
+    datas && getDataGoogle();
+  }, []);
 
   const searchButton = async (e) => {
     e.preventDefault();
@@ -30,6 +32,7 @@ const Navbars = () => {
 
     navigate(`/search/${data}`);
   };
+
   return (
     <nav>
       <div className="wrapper flex justify-between items-center container mx-auto">
@@ -57,9 +60,7 @@ const Navbars = () => {
                   <div className="flex items-center">
                     <span className="w-10 ">{datas.imageUrl ? <img className="rounded-full" src={datas.imageUrl} alt="" /> : <img className="rounded-full" src={`https://ui-avatars.com/api/?name=${datas.imageUrl}`} alt="" />}</span>
                     <span>
-                      <h1 className="hidden sm:block text-white ml-3 text-lg">
-                        {datas.givenName} {datas.familyName}
-                      </h1>
+                      <h1 className="hidden sm:block text-white ml-3 text-lg">{datas.givenName}</h1>
                     </span>
                   </div>
                 </Dropdown.Toggle>

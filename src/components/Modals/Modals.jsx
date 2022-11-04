@@ -1,19 +1,14 @@
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { loginSchema, registerSchema } from "../../schemas";
 import { MdOutlineMailOutline, MdPersonOutline, MdOutlineRemoveRedEye } from "react-icons/md";
-import { RiEyeOffLine } from "react-icons/ri";
-import { useDispatch } from "react-redux";
-
-import { loginGoogle, loginUser, regUser } from "../../app/feature/users";
+import { RiEyeOffLine, RiGoogleFill } from "react-icons/ri";
+import { auth, signInWithEmailAndPassword, signInWithGoogle, registerWithEmailAndPassword, logInWithEmailAndPassword } from "../../utils/firebase";
 
 const Modals = (props) => {
   const [passLogin, setPassLog] = useState(false);
   const [passReg, setPassReg] = useState(false);
-  const [passConf, setPassConf] = useState(false);
-  const dispatch = useDispatch();
 
   const { handleChange, values, errors, touched, handleBlur } = useFormik({
     initialValues: {
@@ -25,41 +20,34 @@ const Modals = (props) => {
 
   const register = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
+      name: "",
       email: "",
       password: "",
-      passConf: "",
     },
     validationSchema: registerSchema,
   });
 
-  const responseGoogle = (response) => {
-    dispatch(loginGoogle(response));
-    props.loginHandleClose();
-    props.getDataGoogle();
+  const responseGoogle = () => {
+    // dispatch(loginGoogle({ loginHandle: props.loginHandleClose, getProfile: props.getDataGoogle }));
+    signInWithGoogle({ loginHandle: props.loginHandleClose, getProfile: props.getDataGoogle });
   };
 
   const handleSubmit = async (e, type) => {
+    e.preventDefault();
     if (type === "login") {
-      e.preventDefault();
-      let payload = {
-        email: values.email,
-        password: values.password,
-      };
-      dispatch(loginUser(payload));
+      // dispatch(loginUser(payload));
+      logInWithEmailAndPassword(values.email, values.password);
       props.loginHandleClose();
     }
     if (type === "register") {
-      e.preventDefault();
-      let payload = {
-        first_name: register.values.firstName,
-        last_name: register.values.lastName,
-        email: register.values.email,
-        password: register.values.password,
-        password_confirmation: register.values.passConf,
-      };
-      dispatch(regUser(payload));
+      // let payload = {
+      //   name: register.values.name,
+      //   email: register.values.email,
+      //   password: register.values.password,
+      // };
+
+      registerWithEmailAndPassword(register.values.name, register.values.email, register.values.password);
+      // dispatch(regUser(payload));
       props.registerHandleClose();
     }
   };
@@ -114,19 +102,15 @@ const Modals = (props) => {
                   {errors.password && touched.password && <p className="error text-sm text-red-600 mt-1 ml-4">{errors.password}</p>}
                 </div>
               </div>
-              <GoogleOAuthProvider clientId="376587108230-nv528gnfio7b42i0l1h4idnj24o2v6eb.apps.googleusercontent.com">
-                <div className="buttons-modal flex align-center mt-3">
-                  <button className="button-login rounded-3xl px-6 py-2 ">Login</button>
-                  <div className="button-google ml-3">
-                    <GoogleLogin
-                      onSuccess={responseGoogle}
-                      onError={() => {
-                        console.log("Login Failed");
-                      }}
-                    />
-                  </div>
-                </div>
-              </GoogleOAuthProvider>
+              <div className="buttons-modal flex align-center mt-3">
+                <button className="button-login rounded-3xl px-6 py-2" type="submit">
+                  Login
+                </button>
+                <button className="button-login rounded-3xl px-6 py-2 flex items-center" type="button" onClick={responseGoogle}>
+                  <RiGoogleFill className="mr-2" />
+                  Login With Google
+                </button>
+              </div>
             </form>
           </Modal.Body>
         </Modal>
@@ -149,32 +133,18 @@ const Modals = (props) => {
                   <span className="relative">
                     <input
                       type="text"
-                      className={`py-2 px-3  rounded-3xl ${register.errors.firstName && register.touched.firstName ? "input-error" : ""}`}
+                      className={`py-2 px-3  rounded-3xl ${register.errors.name && register.touched.name ? "input-error" : ""}`}
                       onBlur={register.handleBlur}
-                      name="firstName"
-                      placeholder="First Name"
-                      value={register.values.firstName}
+                      name="name"
+                      placeholder="Name"
+                      value={register.values.name}
                       onChange={register.handleChange}
                     />
                     <MdPersonOutline className="absolute icon" />
                   </span>
-                  {register.errors.firstName && register.touched.firstName && <p className="error text-sm text-red-600 mt-1 ml-4">{register.errors.firstName}</p>}
+                  {register.errors.name && register.touched.name && <p className="error text-sm text-red-600 mt-1 ml-4">{register.errors.name}</p>}
                 </div>
-                <div className="grouping-input flex flex-col mx-3">
-                  <span className="relative">
-                    <input
-                      type="text"
-                      onBlur={register.handleBlur}
-                      className={`py-2 px-3 rounded-3xl ${register.errors.lastName && register.touched.lastName ? "input-error" : ""}`}
-                      name="lastName"
-                      placeholder="Last Name"
-                      value={register.values.lastName}
-                      onChange={register.handleChange}
-                    />
-                    <MdPersonOutline className="absolute icon" />
-                  </span>
-                  {register.errors.lastName && register.touched.lastName && <p className="error text-sm text-red-600 mt-1 ml-4">{register.errors.lastName}</p>}
-                </div>
+
                 <div className="grouping-input flex flex-col mx-3">
                   <span className="relative">
                     <input
@@ -218,39 +188,6 @@ const Modals = (props) => {
                     </span>
                   )}
                   {register.errors.password && register.touched.password && <p className="error text-sm text-red-600 mt-1 ml-4">{register.errors.password}</p>}
-                </div>
-                <div className="grouping-input flex flex-col mx-3">
-                  {passConf ? (
-                    <span className="relative">
-                      <input
-                        type="text"
-                        onBlur={register.handleBlur}
-                        className={`py-2 px-3  rounded-3xl ${register.errors.passConf && register.touched.passConf ? "input-error" : ""}`}
-                        name="passConf"
-                        placeholder="Password Confirmation"
-                        value={register.values.passConf}
-                        onChange={register.handleChange}
-                      />
-
-                      <MdOutlineRemoveRedEye className="absolute icon cursor-pointer" onClick={() => setPassConf(!passConf)} />
-                    </span>
-                  ) : (
-                    <span className="relative">
-                      <input
-                        type="Password"
-                        onBlur={register.handleBlur}
-                        className={`py-2 px-3  rounded-3xl ${register.errors.passConf && register.touched.passConf ? "input-error" : ""}`}
-                        name="passConf"
-                        placeholder="Password Confirmation"
-                        value={register.values.passConf}
-                        onChange={register.handleChange}
-                      />
-
-                      <RiEyeOffLine className="absolute icon cursor-pointer" onClick={() => setPassConf(!passConf)} />
-                    </span>
-                  )}
-
-                  {register.errors.passConf && register.touched.passConf && <p className="error text-sm text-red-600 mt-1 ml-4">{register.errors.passConf}</p>}
                 </div>
               </div>
               <button className="button-login rounded-3xl px-6 py-2 mt-3">Register Now</button>

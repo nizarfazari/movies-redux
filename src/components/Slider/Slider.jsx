@@ -87,7 +87,7 @@ const Slider = (props) => {
                 <SwiperSlide className="cursor-pointer" key={cast.id}>
                   <div className="relative">
                     {cast.profile_path ? (
-                      <img className="rounded-xl mb-3" src={`${IMG_URL_500}/${cast.profile_path}`} onLoad={onImageLoaded} alt="" />
+                      <img className="rounded-xl mb-3" src={`${IMG_URL_500}/${cast.profile_path}`} onLoad={onImageLoaded} alt="" loading="lazy" />
                     ) : (
                       <div className="rounded-xl bg-gray-300">
                         <img className="rounded-xl mb-3 casts-null" alt="" src={Null} />
@@ -187,8 +187,8 @@ const Slider = (props) => {
               return (
                 <SwiperSlide className="cursor-pointer" key={movie.id} onClick={() => navigate(`/movie/${movie.id}`)}>
                   <div className="movie-card relative">
-                    <img className="rounded-xl" src={`${IMG_URL}/${movie.poster_path}`} onLoad={onImageLoaded} alt="" />
                     {!loaded && <Loader />}
+                    <img className="rounded-xl" src={`${IMG_URL}/${movie.poster_path}`} onLoad={onImageLoaded} alt="" loading="lazy" />
 
                     <div className="movie-description absolute">
                       <h4 className="font-bold text-lg text-white mb-3">{movie.original_title}</h4>

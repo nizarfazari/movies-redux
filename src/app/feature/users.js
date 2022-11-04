@@ -83,38 +83,7 @@ export const usersSlice = createSlice({
   name: "users",
   initialState,
   reducers: {},
-  extraReducers: {
-    [getUserMe.pending]: (state) => {
-      state.loading = true;
-    },
-    [getUserMe.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-      state.dataMe = payload;
-    },
-    [getUserMe.rejected]: (state) => {
-      state.loading = false;
-    },
-    [loginUser.pending]: (state) => {
-      state.loading = true;
-    },
-    [loginUser.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-      state.login = payload;
-    },
-    [loginUser.rejected]: (state) => {
-      state.loading = false;
-    },
-    [regUser.pending]: (state) => {
-      state.loading = true;
-    },
-    [regUser.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-      state.registers = payload;
-    },
-    [regUser.rejected]: (state) => {
-      state.loading = false;
-    },
-  },
+  extraReducers: {},
 });
 
 export default usersSlice.reducer;
